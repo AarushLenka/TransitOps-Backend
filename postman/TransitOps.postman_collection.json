@@ -1,0 +1,724 @@
+{
+    "info": {
+        "_postman_id": "f1a2b3c4-d5e6-7890-abcd-ef1234567890",
+        "name": "TransitOps",
+        "description": "TransitOps - Smart Transport Operations Platform API.\n\nLogin with any role request below; the test script auto-saves the JWT to the `token` collection variable. All other requests send it as a Bearer token (inherited at the collection level).\n\nSeeded users (password Password123! for all): fleet@transitops.test, driver@transitops.test, safety@transitops.test, finance@transitops.test.\n\nSeeded data: Van-05 (max 500kg), driver Alex, and a Draft 450kg trip - all get id 1, so the default {{vehicleId}} {{driverId}} {{tripId}} variables point at the live data.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "vehicleId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "driverId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "tripId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "maintenanceId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "fuelLogId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "expenseId",
+            "value": "1",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "auth": {
+                        "type": "noauth"
+                    },
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"fullName\": \"New Operator\",\n  \"email\": \"new@transitops.test\",\n  \"password\": \"Password123!\",\n  \"roleId\": 1,\n  \"region\": \"North\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/auth/register"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Fleet Manager",
+                    "auth": {
+                        "type": "noauth"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "let body;",
+                                    "try { body = pm.response.json(); } catch (e) { body = null; }",
+                                    "pm.test('Login succeeded', function () {",
+                                    "    pm.expect(pm.response.code).to.eql(200);",
+                                    "    pm.expect(body).to.have.property('token');",
+                                    "});",
+                                    "if (body && body.token) {",
+                                    "    pm.collectionVariables.set('token', body.token);",
+                                    "    console.log('Token saved to collection variable \"token\".');",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"fleet@transitops.test\",\n  \"password\": \"Password123!\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/auth/login"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Driver",
+                    "auth": {
+                        "type": "noauth"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "let body;",
+                                    "try { body = pm.response.json(); } catch (e) { body = null; }",
+                                    "pm.test('Login succeeded', function () {",
+                                    "    pm.expect(pm.response.code).to.eql(200);",
+                                    "    pm.expect(body).to.have.property('token');",
+                                    "});",
+                                    "if (body && body.token) {",
+                                    "    pm.collectionVariables.set('token', body.token);",
+                                    "    console.log('Token saved.');",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"driver@transitops.test\",\n  \"password\": \"Password123!\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/auth/login"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Safety Officer",
+                    "auth": {
+                        "type": "noauth"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "let body;",
+                                    "try { body = pm.response.json(); } catch (e) { body = null; }",
+                                    "pm.test('Login succeeded', function () {",
+                                    "    pm.expect(pm.response.code).to.eql(200);",
+                                    "    pm.expect(body).to.have.property('token');",
+                                    "});",
+                                    "if (body && body.token) {",
+                                    "    pm.collectionVariables.set('token', body.token);",
+                                    "    console.log('Token saved.');",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"safety@transitops.test\",\n  \"password\": \"Password123!\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/auth/login"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Financial Analyst",
+                    "auth": {
+                        "type": "noauth"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "let body;",
+                                    "try { body = pm.response.json(); } catch (e) { body = null; }",
+                                    "pm.test('Login succeeded', function () {",
+                                    "    pm.expect(pm.response.code).to.eql(200);",
+                                    "    pm.expect(body).to.have.property('token');",
+                                    "});",
+                                    "if (body && body.token) {",
+                                    "    pm.collectionVariables.set('token', body.token);",
+                                    "    console.log('Token saved.');",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"finance@transitops.test\",\n  \"password\": \"Password123!\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/auth/login"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Me",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/auth/me"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Vehicles",
+            "item": [
+                {
+                    "name": "List (filtered)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/vehicles?status=AVAILABLE&type=Van&region=North"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/vehicles/{{vehicleId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"registrationNumber\": \"Van-06\",\n  \"model\": \"Ford Transit 350\",\n  \"type\": \"Van\",\n  \"maxLoadCapacity\": 750,\n  \"acquisitionCost\": 48000,\n  \"region\": \"North\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/vehicles"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update",
+                    "request": {
+                        "method": "PUT",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"model\": \"Ford Transit 350 (2023)\",\n  \"region\": \"South\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/vehicles/{{vehicleId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/vehicles/{{vehicleId}}"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Drivers",
+            "item": [
+                {
+                    "name": "List (filtered)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/drivers?status=AVAILABLE"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/drivers/{{driverId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"fullName\": \"Jordan Lee\",\n  \"licenseNumber\": \"DL-JORDAN-2028\",\n  \"licenseCategory\": \"HMV\",\n  \"licenseExpiryDate\": \"2028-06-30\",\n  \"contactNumber\": \"+1-555-0202\",\n  \"safetyScore\": 90\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/drivers"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update (safetyScore)",
+                    "request": {
+                        "method": "PUT",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"safetyScore\": 95\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/drivers/{{driverId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/drivers/{{driverId}}"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Trips",
+            "item": [
+                {
+                    "name": "List (filtered)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/trips?status=DRAFT"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/trips/{{tripId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create (450kg - under capacity)",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"source\": \"Warehouse North\",\n  \"destination\": \"Distribution Center East\",\n  \"vehicleId\": 1,\n  \"driverId\": 1,\n  \"cargoWeight\": 450,\n  \"plannedDistance\": 120,\n  \"plannedRevenue\": 1500\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/trips"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create (600kg - expect 400 CARGO_EXCEEDS_CAPACITY)",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"source\": \"Warehouse North\",\n  \"destination\": \"Distribution Center East\",\n  \"vehicleId\": 1,\n  \"driverId\": 1,\n  \"cargoWeight\": 600,\n  \"plannedDistance\": 120,\n  \"plannedRevenue\": 1500\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/trips"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Dispatch (Draft -> Dispatched)",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/trips/{{tripId}}/dispatch"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Complete (Dispatched -> Completed)",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"finalOdometer\": 5120,\n  \"fuelConsumed\": 18,\n  \"actualDistance\": 118,\n  \"actualRevenue\": 1480\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/trips/{{tripId}}/complete"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Cancel",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{baseUrl}}/api/trips/{{tripId}}/cancel"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete (only DRAFT or CANCELLED)",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/trips/{{tripId}}"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Maintenance",
+            "item": [
+                {
+                    "name": "List",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/maintenance"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/maintenance/{{maintenanceId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create (Oil Change -> vehicle becomes IN_SHOP)",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"vehicleId\": 1,\n  \"serviceType\": \"Oil Change\",\n  \"description\": \"Routine 10k service\",\n  \"cost\": 120\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/maintenance"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update / Close (CLOSED -> vehicle back to AVAILABLE)",
+                    "request": {
+                        "method": "PUT",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"CLOSED\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/maintenance/{{maintenanceId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/maintenance/{{maintenanceId}}"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Fuel Logs",
+            "item": [
+                {
+                    "name": "List (filtered)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/fuel-logs?vehicleId=1"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/fuel-logs/{{fuelLogId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"vehicleId\": 1,\n  \"tripId\": 1,\n  \"liters\": 45,\n  \"cost\": 67.5,\n  \"logDate\": \"2026-07-12\",\n  \"odometerAtFill\": 5100\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/fuel-logs"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update",
+                    "request": {
+                        "method": "PUT",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"liters\": 46,\n  \"cost\": 69\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/fuel-logs/{{fuelLogId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/fuel-logs/{{fuelLogId}}"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Expenses",
+            "item": [
+                {
+                    "name": "List (filtered)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/expenses?vehicleId=1"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get by id",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/expenses/{{expenseId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create",
+                    "request": {
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"vehicleId\": 1,\n  \"tripId\": 1,\n  \"category\": \"Toll\",\n  \"amount\": 25,\n  \"expenseDate\": \"2026-07-12\",\n  \"notes\": \"Highway toll\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/expenses"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update",
+                    "request": {
+                        "method": "PUT",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"amount\": 30,\n  \"notes\": \"Highway toll (updated)\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "{{baseUrl}}/api/expenses/{{expenseId}}"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/expenses/{{expenseId}}"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Dashboard",
+            "item": [
+                {
+                    "name": "Get KPIs (scoped by type/region)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/dashboard?type=Van&region=North"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Reports",
+            "item": [
+                {
+                    "name": "Operational cost",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/reports/operational-cost"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Fuel efficiency",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/reports/fuel-efficiency"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Fleet utilization",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/reports/fleet-utilization"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Vehicle ROI",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/reports/vehicle-roi"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Export CSV (operational cost)",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/reports/export?format=csv"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

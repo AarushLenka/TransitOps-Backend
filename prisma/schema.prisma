@@ -1,0 +1,207 @@
+// Prisma schema for TransitOps — Smart Transport Operations Platform
+// Mirrors db/schema.sql. All money / weight / distance fields use Float for
+// clean JSON numbers (simpler than Decimal for an API you'll test in Postman).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums  (mirror the CHECK-constrained status columns in schema.sql)
+// ---------------------------------------------------------------------------
+enum VehicleStatus {
+  AVAILABLE
+  ON_TRIP
+  IN_SHOP
+  RETIRED
+}
+
+enum DriverStatus {
+  AVAILABLE
+  ON_TRIP
+  OFF_DUTY
+  SUSPENDED
+}
+
+enum TripStatus {
+  DRAFT
+  DISPATCHED
+  COMPLETED
+  CANCELLED
+}
+
+enum MaintenanceStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+// ---------------------------------------------------------------------------
+// Roles + Users  (RBAC: Fleet Manager, Driver, Safety Officer, Financial Analyst)
+// ---------------------------------------------------------------------------
+model Role {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  users       User[]
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  fullName     String
+  email        String   @unique
+  passwordHash String
+  roleId       Int
+  role         Role     @relation(fields: [roleId], references: [id]) //1 -Fleet Manager, 2 - Driver, 3- Safety Officer, 4- Financial Analyst
+  region       String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  trips        Trip[]   @relation("TripCreator")
+}
+
+// ---------------------------------------------------------------------------
+// Vehicles
+// ---------------------------------------------------------------------------
+model Vehicle {
+  id                 Int            @id @default(autoincrement())
+  registrationNumber String         @unique
+  model              String
+  type               String
+  maxLoadCapacity    Float
+  odometer           Float          @default(0)
+  acquisitionCost    Float
+  region             String?
+  status             VehicleStatus  @default(AVAILABLE)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  trips       Trip[]
+  maintenance MaintenanceLog[]
+  fuelLogs    FuelLog[]
+  expenses    Expense[]
+  documents   VehicleDocument[]
+}
+
+// ---------------------------------------------------------------------------
+// Drivers
+// ---------------------------------------------------------------------------
+model Driver {
+  id                 Int          @id @default(autoincrement())
+  fullName           String
+  licenseNumber      String       @unique
+  licenseCategory    String
+  licenseExpiryDate  DateTime     @db.Date
+  contactNumber      String?
+  safetyScore        Float        @default(0)
+  status             DriverStatus @default(AVAILABLE)
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  trips Trip[]
+}
+
+// ---------------------------------------------------------------------------
+// Trips  (lifecycle: Draft -> Dispatched -> Completed | Cancelled)
+// ---------------------------------------------------------------------------
+model Trip {
+  id             Int        @id @default(autoincrement())
+  source         String
+  destination    String
+  vehicleId      Int
+  driverId       Int
+  cargoWeight    Float
+  plannedDistance Float
+  status         TripStatus @default(DRAFT)
+
+  plannedRevenue Float?
+  actualRevenue  Float?
+  actualDistance Float?
+  finalOdometer  Float?
+  fuelConsumed  Float?
+
+  startedAt    DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  vehicle    Vehicle @relation(fields: [vehicleId], references: [id])
+  driver     Driver  @relation(fields: [driverId], references: [id])
+  creatorId  Int?
+  creator    User?   @relation("TripCreator", fields: [creatorId], references: [id])
+
+  fuelLogs FuelLog[]
+  expenses Expense[]
+}
+
+// ---------------------------------------------------------------------------
+// Maintenance logs
+// ---------------------------------------------------------------------------
+model MaintenanceLog {
+  id          Int               @id @default(autoincrement())
+  vehicleId   Int
+  serviceType String
+  description String?
+  cost        Float             @default(0)
+  status      MaintenanceStatus @default(OPEN)
+  startDate   DateTime          @default(now())
+  endDate     DateTime?
+  notes       String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+}
+
+// ---------------------------------------------------------------------------
+// Fuel logs + Expenses
+// ---------------------------------------------------------------------------
+model FuelLog {
+  id             Int      @id @default(autoincrement())
+  vehicleId      Int
+  tripId         Int?
+  liters         Float
+  cost           Float
+  logDate        DateTime @db.Date
+  odometerAtFill Float?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  trip    Trip?   @relation(fields: [tripId], references: [id], onDelete: SetNull)
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  vehicleId   Int?
+  tripId      Int?
+  category    String
+  amount      Float
+  expenseDate DateTime @db.Date
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  vehicle Vehicle? @relation(fields: [vehicleId], references: [id])
+  trip    Trip?     @relation(fields: [tripId], references: [id], onDelete: SetNull)
+}
+
+// ---------------------------------------------------------------------------
+// Bonus: Vehicle documents  (drives the "email reminders for expiring docs")
+// ---------------------------------------------------------------------------
+model VehicleDocument {
+  id           Int       @id @default(autoincrement())
+  vehicleId    Int
+  documentType String
+  filePath     String
+  issueDate    DateTime? @db.Date
+  expiryDate   DateTime? @db.Date
+  createdAt    DateTime  @default(now())
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+}
