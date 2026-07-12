@@ -18,6 +18,7 @@ npm install
 # 2. configure environment
 cp .env.example .env
 #   -> edit .env and paste your Neon DATABASE_URL + JWT_SECRET
+#   -> (optional) paste an Upstash REDIS_URL to enable read-through caching — see "Caching" below
 
 # 3. create the schema + seed (prisma generate + db push + seed)
 npm run db:setup
@@ -194,3 +195,55 @@ Complete body: `{ finalOdometer?, fuelConsumed?, actualDistance?, actualRevenue?
 - `QUERY_LOG=true` in `.env` to log every SQL query (Prisma).
 - Requests are logged via `morgan('dev')`.
 - Central error handler logs server errors (5xx) to the console with the stack.
+
+---
+
+## Caching (Upstash Redis)
+
+Read-through caching is **opt-in**. Set `REDIS_URL` in `.env` to an Upstash
+**Redis** (TLS) connection string (`rediss://default:<password>@<host>.upstash.io:6379`)
+and the read paths below stop hitting Postgres. Leave it unset and every cache
+operation is a no-op — the API runs exactly as before. If Redis is reachable, it
+also logs `[cache] connected` / `[cache] ready` at boot.
+
+**What is cached** (heavy or high-frequency reads whose invalidation is bounded):
+
+| Cache | Keyed by | TTL | Busted by |
+|---|---|---|---|
+| Dashboard KPIs `GET /dashboard` | `type` + `region` | 60s | any vehicle/driver/trip/maintenance/fuel/expense write |
+| Reports `GET /reports/*` + `/reports/export` | report name | 300s | any vehicle/trip/maintenance/fuel/expense write |
+| Vehicles list + detail `GET /vehicles` `(/:id)` | filters / id | 120s | vehicle write, trip dispatch/complete/cancel, maintenance open/close |
+| Drivers list + detail `GET /drivers` `(/:id)` | filters / id | 120s | driver write, trip dispatch/complete/cancel |
+
+**What is deliberately *not* cached:** trips, maintenance, fuel-log and expense
+reads. Their payloads `include` the related vehicle/trip/driver rows, so any
+status flip would stale-date a cached copy and force near-total invalidation —
+caching them would hurt more than help. They read Postgres directly; their
+**writes** still bust the caches above.
+
+**Invalidation contract.** Every mutating endpoint busts exactly the namespaces
+its change can affect (defined in `src/lib/cache.js`, called by the controllers):
+
+- `invalidateAnalytics()` → `transitops:dashboard:*` + `transitops:reports:*`
+- `invalidateVehicles()` → `transitops:vehicles:*` (list + all details)
+- `invalidateDrivers()` → `transitops:drivers:*`
+
+| Write | Bust |
+|---|---|
+| Vehicle create/update/delete | vehicles + analytics |
+| Driver create/update/delete | drivers |
+| Trip create/delete | analytics (trip counts) |
+| Trip dispatch/complete/cancel | vehicles + drivers + analytics (vehicle & driver status flips; trip aggregates) |
+| Maintenance create/update/delete | vehicles (IN_SHOP↔AVAILABLE) + analytics (cost feeds reports) |
+| Fuel log create/update/delete | analytics (cost/liters feed reports) |
+| Expense create/update/delete | analytics (amount feeds operational-cost) |
+
+Invalidation runs **after** the Prisma transaction commits and is best-effort: if
+Redis is briefly down the delete is skipped and TTL self-heals it. Deletion uses
+`SCAN` (never `KEYS`) so it never blocks a shared Upstash instance.
+
+**Tuning:** edit the `TTL` table in `src/lib/cache.js`. Set `CACHE_DEBUG=true` to
+log `[cache] HIT` / `[cache] MISS` for each key when debugging hit-rate.
+
+**Graceful shutdown:** the Redis client is closed alongside Postgres on `SIGINT` /
+`SIGTERM` (`src/server.js`).

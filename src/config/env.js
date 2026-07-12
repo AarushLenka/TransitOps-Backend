@@ -20,4 +20,8 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '12h',
   queryLog: process.env.QUERY_LOG === 'true',
+  // Upstash Redis for read-through caching (lib/redis.js). Optional — every cache
+  // op degrades to a no-op when this is empty, so the API runs without Redis too.
+  redisUrl: process.env.REDIS_URL || '',
+  cacheDebug: process.env.CACHE_DEBUG === 'true',
 };
