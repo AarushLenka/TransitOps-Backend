@@ -12,21 +12,35 @@ let client = null;
 let enabled = false;
 
 if (config.redisUrl) {
-  client = new Redis(config.redisUrl, {
-    // Fail fast on a request when Redis is unreachable, so cachedGet can catch
-    // and fall through to the loader instead of hanging.
-    maxRetriesPerRequest: 3,
-    enableReadyCheck: true,
-    retryStrategy(times) {
-      // back off: 200ms, 400ms, ... capped at 2s
-      return Math.min(times * 200, 2000);
-    },
-  });
-  client.on('error', (err) => console.error(`[redis] error: ${err.message}`));
-  client.on('connect', () => console.log('[redis] connected'));
-  client.on('ready', () => console.log('[redis] ready'));
-  client.on('reconnecting', (delay) => console.log(`[redis] reconnecting in ${delay}ms`));
-  enabled = true;
+  const redisUrl = String(config.redisUrl).trim();
+
+  // Some users may paste the Upstash CLI snippet into REDIS_URL:
+  //   "redis-cli --tls -u redis://default:<pass>@<host>:6379"
+  // ioredis expects a pure Redis URL only, e.g. "rediss://...".
+  const normalized = redisUrl.startsWith('redis-cli ')
+    ? redisUrl.split('-u')[1]?.trim()
+    : redisUrl;
+
+  if (!normalized) {
+    console.error('[redis] Invalid REDIS_URL format; caching disabled.');
+  } else {
+    client = new Redis(normalized, {
+      // Fail fast when Redis is unreachable, so cachedGet falls back to Postgres.
+      maxRetriesPerRequest: 3,
+      enableReadyCheck: true,
+      retryStrategy(times) {
+        // back off: 200ms, 400ms, ... capped at 2s
+        return Math.min(times * 200, 2000);
+      },
+    });
+
+    client.on('error', (err) => console.error(`[redis] error: ${err.message}`));
+    client.on('connect', () => console.log('[redis] connected'));
+    client.on('ready', () => console.log('[redis] ready'));
+    client.on('reconnecting', (delay) => console.log(`[redis] reconnecting in ${delay}ms`));
+
+    enabled = true;
+  }
 } else {
   console.log('[redis] REDIS_URL not set — caching disabled (pass-through to Postgres).');
 }
@@ -43,3 +57,4 @@ export async function disconnectRedis() {
     }
   }
 }
+
