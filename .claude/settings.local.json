@@ -6,7 +6,9 @@
       "Bash(python -c \"import pdfplumber; print\\('pdfplumber available'\\)\")",
       "Bash(python -c \"import fitz; print\\('pymupdf available'\\)\")",
       "Bash(python *)",
-      "Bash(npm --version)"
+      "Bash(npm --version)",
+      "Bash(python3 *)",
+      "Bash(graphify export *)"
     ]
   }
 }

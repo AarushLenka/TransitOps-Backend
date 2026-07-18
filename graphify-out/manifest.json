@@ -1,0 +1,282 @@
+{
+  ".claude/settings.local.json": {
+    "mtime": 1784362454.1950245,
+    "ast_hash": "48d5bcfa69742a4821fe56668c25651c",
+    "semantic_hash": "48d5bcfa69742a4821fe56668c25651c"
+  },
+  "db/schema.sql": {
+    "mtime": 1784359838.0203831,
+    "ast_hash": "24288aac7248659cbbeef71a369b6221",
+    "semantic_hash": "24288aac7248659cbbeef71a369b6221"
+  },
+  "package.json": {
+    "mtime": 1784359838.0223832,
+    "ast_hash": "e145f7e688c582baaa8a741bacc31cc7",
+    "semantic_hash": "e145f7e688c582baaa8a741bacc31cc7"
+  },
+  "postman/TransitOps.postman_collection.json": {
+    "mtime": 1784359838.0223832,
+    "ast_hash": "19bd379bb9c2f1027c018faef9ec0667",
+    "semantic_hash": "19bd379bb9c2f1027c018faef9ec0667"
+  },
+  "prisma/seed.js": {
+    "mtime": 1784359838.0233831,
+    "ast_hash": "66b73388d7c7090e40721ad0d10941ca",
+    "semantic_hash": "66b73388d7c7090e40721ad0d10941ca"
+  },
+  "src/app.js": {
+    "mtime": 1784359838.0233831,
+    "ast_hash": "1b581dc5cc1fe819d36da4e396050f8d",
+    "semantic_hash": "1b581dc5cc1fe819d36da4e396050f8d"
+  },
+  "src/config/env.js": {
+    "mtime": 1784359838.0244656,
+    "ast_hash": "d93cc36d3424c12b537ff0bfca181d90",
+    "semantic_hash": "d93cc36d3424c12b537ff0bfca181d90"
+  },
+  "src/lib/cache.js": {
+    "mtime": 1784359838.0244656,
+    "ast_hash": "8f2d047dd46e11e26dc2dde79029d942",
+    "semantic_hash": "8f2d047dd46e11e26dc2dde79029d942"
+  },
+  "src/lib/prisma.js": {
+    "mtime": 1784359838.0247974,
+    "ast_hash": "44904747e4c69466e0fff98f9eefea9c",
+    "semantic_hash": "44904747e4c69466e0fff98f9eefea9c"
+  },
+  "src/lib/redis.js": {
+    "mtime": 1784359838.0247974,
+    "ast_hash": "0ab3ff225dffacf16c9624ff8203b9d8",
+    "semantic_hash": "0ab3ff225dffacf16c9624ff8203b9d8"
+  },
+  "src/middleware/auth.js": {
+    "mtime": 1784359838.0247974,
+    "ast_hash": "a1ba318b2830df41b74ad0e18fd1286c",
+    "semantic_hash": "a1ba318b2830df41b74ad0e18fd1286c"
+  },
+  "src/middleware/error.js": {
+    "mtime": 1784359838.0252907,
+    "ast_hash": "27d636c178a485e54d6cabcf5311f3b6",
+    "semantic_hash": "27d636c178a485e54d6cabcf5311f3b6"
+  },
+  "src/middleware/notFound.js": {
+    "mtime": 1784359838.0252907,
+    "ast_hash": "46d1275ce95e5109bc96b7a78606e8b5",
+    "semantic_hash": "46d1275ce95e5109bc96b7a78606e8b5"
+  },
+  "src/middleware/rbac.js": {
+    "mtime": 1784359838.0252907,
+    "ast_hash": "9813814a9bdd3e600e997ba9c4e88383",
+    "semantic_hash": "9813814a9bdd3e600e997ba9c4e88383"
+  },
+  "src/middleware/validate.js": {
+    "mtime": 1784359838.0252907,
+    "ast_hash": "eeec3e3ea1604e38e1958d8876b5ddc5",
+    "semantic_hash": "eeec3e3ea1604e38e1958d8876b5ddc5"
+  },
+  "src/modules/auth/controller.js": {
+    "mtime": 1784359838.0258956,
+    "ast_hash": "0a976e141eb4bb46c9a9e5def94d21de",
+    "semantic_hash": "0a976e141eb4bb46c9a9e5def94d21de"
+  },
+  "src/modules/auth/routes.js": {
+    "mtime": 1784359838.0262413,
+    "ast_hash": "09c7af2ee29d7393faa3fa3a82607564",
+    "semantic_hash": "09c7af2ee29d7393faa3fa3a82607564"
+  },
+  "src/modules/auth/schema.js": {
+    "mtime": 1784359838.0262413,
+    "ast_hash": "8e5aeea592e0fcab858e8019c0ad8cba",
+    "semantic_hash": "8e5aeea592e0fcab858e8019c0ad8cba"
+  },
+  "src/modules/auth/service.js": {
+    "mtime": 1784359838.0262413,
+    "ast_hash": "de279aa0ae3a7e5ac125b85deccd3e0f",
+    "semantic_hash": "de279aa0ae3a7e5ac125b85deccd3e0f"
+  },
+  "src/modules/dashboard/controller.js": {
+    "mtime": 1784359838.0262413,
+    "ast_hash": "094b86b4670da57caaa4878a079b55b3",
+    "semantic_hash": "094b86b4670da57caaa4878a079b55b3"
+  },
+  "src/modules/dashboard/routes.js": {
+    "mtime": 1784359838.0266092,
+    "ast_hash": "d7517407c4d90dd4b91ddfe4c8793615",
+    "semantic_hash": "d7517407c4d90dd4b91ddfe4c8793615"
+  },
+  "src/modules/dashboard/schema.js": {
+    "mtime": 1784359838.0266092,
+    "ast_hash": "c72b32c17d227c3e30f929fd55ece5b1",
+    "semantic_hash": "c72b32c17d227c3e30f929fd55ece5b1"
+  },
+  "src/modules/dashboard/service.js": {
+    "mtime": 1784359838.0266092,
+    "ast_hash": "9a4c8397ffb046dffcbfeebcb91f4375",
+    "semantic_hash": "9a4c8397ffb046dffcbfeebcb91f4375"
+  },
+  "src/modules/drivers/controller.js": {
+    "mtime": 1784359838.0266092,
+    "ast_hash": "b58bf5eafbff16c70fd8ea068203a428",
+    "semantic_hash": "b58bf5eafbff16c70fd8ea068203a428"
+  },
+  "src/modules/drivers/routes.js": {
+    "mtime": 1784359838.0272553,
+    "ast_hash": "0b1afd6b9464db13c0d48adb8d61783d",
+    "semantic_hash": "0b1afd6b9464db13c0d48adb8d61783d"
+  },
+  "src/modules/drivers/schema.js": {
+    "mtime": 1784359838.0272553,
+    "ast_hash": "c9139de0ff12f272e23f2d2c6a4a3249",
+    "semantic_hash": "c9139de0ff12f272e23f2d2c6a4a3249"
+  },
+  "src/modules/drivers/service.js": {
+    "mtime": 1784359838.0272553,
+    "ast_hash": "b9080e3c60f0f88154c40576110f8a28",
+    "semantic_hash": "b9080e3c60f0f88154c40576110f8a28"
+  },
+  "src/modules/expenses/controller.js": {
+    "mtime": 1784359838.0272553,
+    "ast_hash": "ea9a8c753b69523a537a4427ebd90d31",
+    "semantic_hash": "ea9a8c753b69523a537a4427ebd90d31"
+  },
+  "src/modules/expenses/routes.js": {
+    "mtime": 1784359838.027383,
+    "ast_hash": "38d64a6e12245759570166debe634263",
+    "semantic_hash": "38d64a6e12245759570166debe634263"
+  },
+  "src/modules/expenses/schema.js": {
+    "mtime": 1784359838.027383,
+    "ast_hash": "c8cb5d0a25e67399e972a4bc60167597",
+    "semantic_hash": "c8cb5d0a25e67399e972a4bc60167597"
+  },
+  "src/modules/expenses/service.js": {
+    "mtime": 1784359838.027383,
+    "ast_hash": "022a02257dc298630ebda3ea78029e88",
+    "semantic_hash": "022a02257dc298630ebda3ea78029e88"
+  },
+  "src/modules/fuelLogs/controller.js": {
+    "mtime": 1784359838.027383,
+    "ast_hash": "30ab0c97fd96bb58e702ca9f6e6cc805",
+    "semantic_hash": "30ab0c97fd96bb58e702ca9f6e6cc805"
+  },
+  "src/modules/fuelLogs/routes.js": {
+    "mtime": 1784359838.0282738,
+    "ast_hash": "96aa8fb7b2eb10e4ad7687455dc90dc3",
+    "semantic_hash": "96aa8fb7b2eb10e4ad7687455dc90dc3"
+  },
+  "src/modules/fuelLogs/schema.js": {
+    "mtime": 1784359838.0282738,
+    "ast_hash": "fb13fdf42e893374446bd502588c3227",
+    "semantic_hash": "fb13fdf42e893374446bd502588c3227"
+  },
+  "src/modules/fuelLogs/service.js": {
+    "mtime": 1784359838.0282738,
+    "ast_hash": "67c374b76c3a0b17e23884faff061ba4",
+    "semantic_hash": "67c374b76c3a0b17e23884faff061ba4"
+  },
+  "src/modules/maintenance/controller.js": {
+    "mtime": 1784359838.0282738,
+    "ast_hash": "ae350c8675655df0a0bcca49b13b2fc1",
+    "semantic_hash": "ae350c8675655df0a0bcca49b13b2fc1"
+  },
+  "src/modules/maintenance/routes.js": {
+    "mtime": 1784359838.0286305,
+    "ast_hash": "57718a859abb47d3ee083de08fd18c77",
+    "semantic_hash": "57718a859abb47d3ee083de08fd18c77"
+  },
+  "src/modules/maintenance/schema.js": {
+    "mtime": 1784359838.0286305,
+    "ast_hash": "26c00a09d58b687cf92941126d17b2e2",
+    "semantic_hash": "26c00a09d58b687cf92941126d17b2e2"
+  },
+  "src/modules/maintenance/service.js": {
+    "mtime": 1784359838.0286305,
+    "ast_hash": "c070794781a18d832957932d7148fe0d",
+    "semantic_hash": "c070794781a18d832957932d7148fe0d"
+  },
+  "src/modules/reports/controller.js": {
+    "mtime": 1784359838.0286305,
+    "ast_hash": "777780292d32020d5db4a2bbb42c505e",
+    "semantic_hash": "777780292d32020d5db4a2bbb42c505e"
+  },
+  "src/modules/reports/routes.js": {
+    "mtime": 1784359838.0291638,
+    "ast_hash": "29316a1508f78204a88e09e1ab3faea5",
+    "semantic_hash": "29316a1508f78204a88e09e1ab3faea5"
+  },
+  "src/modules/reports/service.js": {
+    "mtime": 1784359838.0291638,
+    "ast_hash": "ad55729b55bc1d1044ba37d9a0ca03c3",
+    "semantic_hash": "ad55729b55bc1d1044ba37d9a0ca03c3"
+  },
+  "src/modules/trips/controller.js": {
+    "mtime": 1784359838.0291638,
+    "ast_hash": "701f0ff8787f85994300d0ea969b224c",
+    "semantic_hash": "701f0ff8787f85994300d0ea969b224c"
+  },
+  "src/modules/trips/routes.js": {
+    "mtime": 1784359838.0296357,
+    "ast_hash": "0ecae167ccc2cef144cebefc96afe643",
+    "semantic_hash": "0ecae167ccc2cef144cebefc96afe643"
+  },
+  "src/modules/trips/schema.js": {
+    "mtime": 1784359838.0296357,
+    "ast_hash": "9fe47247c3009004aa5f20a1d903f170",
+    "semantic_hash": "9fe47247c3009004aa5f20a1d903f170"
+  },
+  "src/modules/trips/service.js": {
+    "mtime": 1784359838.0296357,
+    "ast_hash": "05c43cabf4b94cecaf6c8f538c24e718",
+    "semantic_hash": "05c43cabf4b94cecaf6c8f538c24e718"
+  },
+  "src/modules/vehicles/controller.js": {
+    "mtime": 1784359838.0296357,
+    "ast_hash": "626d97e800292a644b87113c7de8eac4",
+    "semantic_hash": "626d97e800292a644b87113c7de8eac4"
+  },
+  "src/modules/vehicles/routes.js": {
+    "mtime": 1784359838.0304768,
+    "ast_hash": "be9959dbb685b261603f92b5cdbfb7fa",
+    "semantic_hash": "be9959dbb685b261603f92b5cdbfb7fa"
+  },
+  "src/modules/vehicles/schema.js": {
+    "mtime": 1784359838.0304768,
+    "ast_hash": "b6c877cf1e60e465e6d489ef5ceb797b",
+    "semantic_hash": "b6c877cf1e60e465e6d489ef5ceb797b"
+  },
+  "src/modules/vehicles/service.js": {
+    "mtime": 1784359838.0304768,
+    "ast_hash": "5fe418d048b66fbeecdd8a19a1917eb0",
+    "semantic_hash": "5fe418d048b66fbeecdd8a19a1917eb0"
+  },
+  "src/routes/index.js": {
+    "mtime": 1784359838.0304768,
+    "ast_hash": "39addb76053f1b505c3c7c4f173b3c4c",
+    "semantic_hash": "39addb76053f1b505c3c7c4f173b3c4c"
+  },
+  "src/server.js": {
+    "mtime": 1784359838.0304768,
+    "ast_hash": "2cdb9db2d1727c6ddfec064ad540256c",
+    "semantic_hash": "2cdb9db2d1727c6ddfec064ad540256c"
+  },
+  "src/utils/asyncHandler.js": {
+    "mtime": 1784359838.0304768,
+    "ast_hash": "bb89369aa4b072b22bd55885597f0b13",
+    "semantic_hash": "bb89369aa4b072b22bd55885597f0b13"
+  },
+  "src/utils/httpError.js": {
+    "mtime": 1784359838.031361,
+    "ast_hash": "7afe97aab72d25ade9d9f592ee5cc58a",
+    "semantic_hash": "7afe97aab72d25ade9d9f592ee5cc58a"
+  },
+  "README.md": {
+    "mtime": 1784359838.011383,
+    "ast_hash": "c99d5d138c86e82a21bda78422342415",
+    "semantic_hash": "c99d5d138c86e82a21bda78422342415"
+  },
+  "TransitOps Smart Transport Operations Platform.pdf": {
+    "mtime": 1784359838.0193832,
+    "ast_hash": "b2414207e0267ee03cd8e143cb279c3b",
+    "semantic_hash": "b2414207e0267ee03cd8e143cb279c3b"
+  }
+}
